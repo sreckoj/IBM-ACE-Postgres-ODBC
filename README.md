@@ -113,6 +113,85 @@ Verify that a group named *mqbrkrs* is created:
 cat /etc/group | grep mqbrkrs
 ```
 
+## Set up an ODBC data source
+
+After installation, the PostgreSQL libraries are available in the directory (here we assume version 15):
+```
+/usr/pgsql-15/lib/
+```
+
+You will find the following ODBC driver files:
+```
+psqlodbc.so
+psqlodbca.so
+psqlodbcw.so
+```
+
+Copy the driver to the App Connect Enterprise ODBC drivers directory:
+```sh
+cp /usr/pgsql-15/lib/psqlodbc.so /root/ace-12.0.8.0/server/ODBC/drivers/lib/.
+```
+
+App Connect Enterprise provides templates for the **odbc.ini** and **odbcinst.ini** files. Make a copy of these two files to a directory of your choice (in our case /root/demo/):
+```sh
+cp /root/ace-12.0.8.0/server/ODBC/unixodbc/odbc.ini /root/demo/odbc.ini
+cp /root/ace-12.0.8.0/server/ODBC/unixodbc/odbcinst.ini /root/demo/odbcinst.ini
+```
+
+Set the group ownership of these two files to *mqbrkrs*:
+```sh
+chgrp mqbrkrs odbc.ini
+chgrp mqbrkrs odbcinst.ini
+```
+
+Change the ini files. In our example below, the name of the ODBC data source is **DEMODB** and it points to a PostgreSQL server running on localhost. The database name and username are *postgres*:
+
+**odbc.ini**
+```ini
+[ODBC Data Sources]
+DEMODB=PostgreSQL ODBC datasource
+
+[DEMODB]
+Driver=/root/ace-12.0.8.0/server/ODBC/drivers/lib/psqlodbc.so
+Description=Sample PostgreSQL DSN
+Servername=localhost
+Username=postgres
+Database=postgres
+ReadOnly=No
+Servertype=postgres
+Port=5432
+
+[ODBC]
+InstallDir=/root/ace-12.0.8.0/server/ODBC/drivers
+UseCursorLib=0
+IANAAppCodePage=4
+UNICODE=UTF-8
+```
+
+**odbcinst.ini**
+```ini
+[ODBC]
+;# To turn on ODBC trace set Trace=yes
+Trace=no
+TraceFile=/root/demo/odbctrace.out
+Threading=2
+```
+
+Create an **ODBCINI** environment variable that points to the **odbc.ini** file and an **ODBCSYSINI** environment variable that points to the directory with **odbcinst.ini**:
+```sh
+export ODBCINI=/root/demo/odbc.ini
+export ODBCSYSINI=/root/demo
+```
+
+Create a security identity for the user accessing PostgreSQL. Here we assume that the password for the *postgres* user is *Passw0rd* and that we are running on an independent integration server whose working directory is */root/demo/ace1* The directory must be created in advance using the *IntegrationServer* or *mqsicreateworkdir* commands:
+```sh
+mqsisetdbparms --work-dir /root/demo/ace1 -n odbc::DEMODB -u postgres -p Passw0rd
+```
+
+Test the connection with the **mqsicvp** tool:
+```sh
+mqsicvp --work-dir /root/demo/ace1 -n DEMODB
+```
 
 
 
