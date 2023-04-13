@@ -288,7 +288,7 @@ Send a message. If everything is fine, the result will appear in the Exerciser:
 
 Click the message icon to check the response from the Compute node:
 
-<img width="850" src="images/Snip20230413_168.png">
+<img width="400" src="images/Snip20230413_168.png">
 
 
 
