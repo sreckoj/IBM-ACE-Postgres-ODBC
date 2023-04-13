@@ -1,7 +1,7 @@
 
 # Connecting from IBM App Connect Enterprise to PostgreSQL using ODBC on Linux
 
-The example described in this blog was tested on CentOS 8. Similar steps can be performed on other Linux distributions. All commands are executed with root or postgres user identity.
+The example described in this blog was tested on CentOS 8. Similar steps can be performed on other Linux distributions. All commands are executed with *root* or *postgres* user identity.
 
 ## Install PostgreSQL
 
@@ -42,11 +42,52 @@ passwd postgres
 
 ## Create a sample database table
 
+Switch to the *postgres* user:
+```sh
+su - postgres
+```
 
+Start the postgres shell:
+```sh
+psql
+```
 
+A prompt similar to the following appears, indicating that you are connected to the default database, also known as *postgres*:
+```
+postgres=#
+```
 
+The following commands can be used to list databases and check connection information:
+```
+\l
+\conninfo
+```
 
+Create a simple table for testing. For example:
+```sql
+create table employees
+(
+  employee_id character varying(6),
+  first_name character varying(20),
+  last_name character varying(20),
+  department_id character varying(3)
+);
+```
 
+Verify that the table is created:
+```
+\dt
+```
+
+Exit the *postgres* shell:
+```
+\q
+```
+
+Switch back to the root user:
+```sh
+exit
+```
 
 
 
