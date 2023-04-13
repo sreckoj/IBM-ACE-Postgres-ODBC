@@ -260,9 +260,35 @@ CREATE COMPUTE MODULE DatabaseCompute_Compute
 END MODULE;
 ```
 
+Connect to the Integration Server we started earlier:
 
+<img width="850" src="images/Snip20230413_164.png">
 
+Run the app with Flow Exerciser:
 
+<img width="850" src="images/Snip20230413_165.png">
+
+Create an input message (don't use the messages provided by the tutorial - they don't fit our case):
+
+<img width="850" src="images/Snip20230413_166.png">
+
+This is an example of a message that fits our definition of a database table (Christine Haas is probably the most commonly used name in IBM database examples):
+```json
+{
+  "employee_id": "000010",
+  "first_name": "Christine",
+  "last_name": "Haas",
+  "department_id": "A01"
+}
+```
+
+Send a message. If everything is fine, the result will appear in the Exerciser:
+
+<img width="850" src="images/Snip20230413_167.png">
+
+Click the message icon to check the response from the Compute node:
+
+<img width="850" src="images/Snip20230413_168.png">
 
 
 
