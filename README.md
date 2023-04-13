@@ -225,7 +225,40 @@ Start it:
 
 When prompted, select the workspace of your choice.
 
+## Create and run a test flow
 
+Create a simple test application and test flow. You can use the ***"Databases - Using Compute Node to Insert Data into a DB2 Database via ODBC"*** tutorial available in the **Toolkit Tutorials** as a template and adapt it for our Postgres example.
+
+<img width="850" src="images/Snip20230413_157.png">
+
+<img width="850" src="images/Snip20230413_159.png">
+
+Set the data source for the compute node to the one we defined in **odbc.ini**:
+
+<img width="850" src="images/Snip20230413_162.png">
+
+Modify the ESQL code to match the name and structure of the Postgres table we created earlier. The code should look like this:
+
+```sql
+CREATE COMPUTE MODULE DatabaseCompute_Compute
+  CREATE FUNCTION Main() RETURNS BOOLEAN
+  BEGIN   
+    SET OutputRoot = InputRoot;
+    DECLARE MyRef REFERENCE TO InputRoot.JSON.Data;
+    DECLARE DBTable  CHARACTER 'employees';
+    INSERT INTO Database.{DBTable} (employee_id, first_name, last_name, department_id)
+          VALUES( MyRef.employee_id, MyRef.first_name, MyRef.last_name, MyRef.department_id );
+    IF (SQLCODE = 0) THEN
+            SET OutputRoot.JSON.Data.Result = 'A row was inserted into the database successfully.';
+        ELSE
+            SET OutputRoot.JSON.Data.Result =  
+              'The insert failed. The database SQLSTATE was ' || CAST(SQLSTATE AS CHAR) || 
+              ' and the SQLCODE was ' || CAST(SQLCODE AS CHAR);             
+        END IF;             
+    RETURN TRUE;
+  END;
+END MODULE;
+```
 
 
 
