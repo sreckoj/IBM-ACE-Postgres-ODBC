@@ -193,8 +193,37 @@ Test the connection with the **mqsicvp** tool:
 mqsicvp --work-dir /root/demo/ace1 -n DEMODB
 ```
 
+## Start the Integration Server
 
+Prepare the environment:
+```sh
+. /root/ace-12.0.8.0/server/bin/mqsiprofile
+```
 
+If you haven't already done so, export the ODBC environment variables (unless you added them to the profile to make them persistent):
+```sh
+export ODBCINI=/root/demo/odbc.ini
+export ODBCSYSINI=/root/demo
+```
+
+Start the server (assuming */root/demo/ace1* as the working directory):
+```sh
+IntegrationServer --name ace1 --work-dir /root/demo/ace1
+```
+
+## Start the Toolkit
+
+Prepare the environment:
+```sh
+. /root/ace-12.0.8.0/server/bin/mqsiprofile
+```
+
+Start it:
+```sh
+/root/ace-12.0.8.0/ace toolkit
+```
+
+When prompted, select the workspace of your choice.
 
 
 
