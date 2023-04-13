@@ -290,13 +290,43 @@ Click the message icon to check the response from the Compute node:
 
 <img width="600" src="images/Snip20230413_168.png">
 
+To check the result in a PostgreSQL database, switch to the postgres user and run the PostgreSQL shell:
+```sh
+su - postgres
+psql
+```
 
+List the tables:
+```
+\dt
+```
 
+The result should look like this:
+```
+           List of relations
+ Schema |   Name    | Type  |  Owner   
+--------+-----------+-------+----------
+ public | employees | table | postgres
+(1 row)
 
+```
 
+Check the contents of the table:
+```sql
+select * from employees;
+```
 
+It should display the record we entered earlier:
+```
+ employee_id | first_name | last_name | department_id 
+-------------+------------+-----------+---------------
+ 000010      | Christine  | Haas      | A01
+(1 row)
+```
 
-
-
-
+Exit postgres:
+```
+postgres=# \q
+exit
+```
 
