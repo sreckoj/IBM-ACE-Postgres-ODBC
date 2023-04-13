@@ -89,6 +89,30 @@ Switch back to the root user:
 exit
 ```
 
+## Install App Connect Enterprise
+
+For simplicity, in this demo we will install ACE and run it as root on the same Linux machine.  Check the App Connect documentation for more installation instructions. 
+
+Download (from Passport Advantage or Fix Central) and extract the installation package:
+```sh
+tar -xzvf 12.0-ACE-LINUXX64-12.0.8.0.tar.gz
+```
+
+In this case, the files were extracted in the root user's home directory:
+```
+/root/ace-12.0.8.0/
+```
+
+Accept the license:
+```sh
+/root/ace-12.0.8.0/ace make registry global accept license
+```
+
+Verify that a group named *mqbrkrs* is created:
+```sh
+cat /etc/group | grep mqbrkrs
+```
+
 
 
 
