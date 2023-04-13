@@ -247,14 +247,14 @@ CREATE COMPUTE MODULE DatabaseCompute_Compute
     DECLARE MyRef REFERENCE TO InputRoot.JSON.Data;
     DECLARE DBTable  CHARACTER 'employees';
     INSERT INTO Database.{DBTable} (employee_id, first_name, last_name, department_id)
-          VALUES( MyRef.employee_id, MyRef.first_name, MyRef.last_name, MyRef.department_id );
+        VALUES( MyRef.employee_id, MyRef.first_name, MyRef.last_name, MyRef.department_id );
     IF (SQLCODE = 0) THEN
-            SET OutputRoot.JSON.Data.Result = 'A row was inserted into the database successfully.';
-        ELSE
-            SET OutputRoot.JSON.Data.Result =  
-              'The insert failed. The database SQLSTATE was ' || CAST(SQLSTATE AS CHAR) || 
-              ' and the SQLCODE was ' || CAST(SQLCODE AS CHAR);             
-        END IF;             
+        SET OutputRoot.JSON.Data.Result = 'A row was inserted into the database successfully.';
+    ELSE
+        SET OutputRoot.JSON.Data.Result =  
+          'The insert failed. The database SQLSTATE was ' || CAST(SQLSTATE AS CHAR) || 
+          ' and the SQLCODE was ' || CAST(SQLCODE AS CHAR);             
+    END IF;             
     RETURN TRUE;
   END;
 END MODULE;
